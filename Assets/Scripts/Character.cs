@@ -22,6 +22,7 @@ public class Character : Unit
     [SerializeField]
     private float jumpForce = 15.0F;
 
+        //на земле?
     private bool isGrounded = false;
 
     private Bullet bullet;
@@ -85,15 +86,16 @@ public class Character : Unit
         newBullet.Direction = newBullet.transform.right * (sprite.flipX ? -1.0F : 1.0F);
     }
 
-    //public override void ReceiveDamage()
-    //{
-    //    Lives--;
+    public override void ReceiveDamage()
+    {
+        lives--;
 
-    //    rigidbody.velocity = Vector3.zero;
-    //    rigidbody.AddForce(transform.up * 8.0F, ForceMode2D.Impulse);
+        //rigidbody.velocity = Vector3.zero;
+        //rigidbody.AddForce(transform.up * 8.0F, ForceMode2D.Impulse);
 
-    //    Debug.Log(lives);
-    //}
+        Debug.Log(lives);
+    }
+
 
     private void CheckGround()
     {
@@ -101,6 +103,7 @@ public class Character : Unit
 
         isGrounded = colliders.Length > 1;
 
+        //если не на земле прыжок запрещен
         if (!isGrounded) State = CharState.Jump;
     }
 
