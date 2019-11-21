@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : Unit
 {
     [SerializeField]
     private int lives = 5;
@@ -15,6 +15,13 @@ public class Character : MonoBehaviour
     private Animator animator;
     private SpriteRenderer sprite;
     private bool isGrounded = false;
+
+    private CharState State
+    {
+        get { return (CharState)animator.GetInteger("State"); }
+        set { animator.SetInteger("State", (int)value); }
+        
+    }
 
     private void Awake()
     {
@@ -32,6 +39,8 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
+        if(isGrounded) State = CharState.Idle;
+
         if (Input.GetButton("Horizontal")) Run();
         if (isGrounded && Input.GetButtonDown("Jump")) Jump();
     }
@@ -43,6 +52,8 @@ public class Character : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
 
         sprite.flipX = direction.x < 0.0F;
+
+        if(isGrounded)  State = CharState.Run;
     }
 
     private void Jump()
@@ -54,8 +65,15 @@ public class Character : MonoBehaviour
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.3F);
         isGrounded = colliders.Length > 1;
+        if(!isGrounded) State = CharState.Jump;
     }
 
 
 }
 
+public enum CharState
+{
+    Idle,
+    Run,
+    Jump 
+}
