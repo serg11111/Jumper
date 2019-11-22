@@ -33,6 +33,7 @@ public class Bullet : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
     }
 
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         Unit unit = collider.GetComponent<Unit>();
