@@ -110,11 +110,11 @@ public class Character : Unit
     private void OnTriggerEnter2D(Collider2D collider)
     {
 
-        Unit unit = collider.gameObject.GetComponent<Unit>();
-        if (unit)
-        {
-            ReceiveDamage();
-        }
+        //Unit unit = collider.gameObject.GetComponent<Unit>();
+        //if (unit)
+        //{
+        //    ReceiveDamage();
+        //}
     }
 }
 
