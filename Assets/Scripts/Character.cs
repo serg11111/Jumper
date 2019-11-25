@@ -6,16 +6,16 @@ public class Character : Unit
     [SerializeField]
     private int lives = 5;
 
-    //public int Lives
-    //{
-    //    get { return lives; }
-    //    set
-    //    {
-    //        if (value < 5) lives = value;
-    //        livesBar.Refresh();
-    //    }
-    //}
- //   private LivesBar livesBar;
+    public int Lives
+    {
+        get { return lives; }
+        set
+        {
+            if (value < 5) lives = value;
+            livesBar.Refresh();
+        }
+    }
+    private LivesBar livesBar;
 
     [SerializeField]
     private float speed = 3.0F;
@@ -39,7 +39,7 @@ public class Character : Unit
 
     private void Awake()
     {
- //       livesBar = FindObjectOfType<LivesBar>();
+        livesBar = FindObjectOfType<LivesBar>();
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -88,7 +88,7 @@ public class Character : Unit
 
     public override void ReceiveDamage()
     {
-        lives--;
+        Lives--;
 
         rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(transform.up * 8.0F, ForceMode2D.Impulse);
