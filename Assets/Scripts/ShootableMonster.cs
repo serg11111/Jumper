@@ -2,17 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootableMonster : MonoBehaviour
+public class ShootableMonster : Monster
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private float rate = 2.0F;
+
+    private Bullet bullet;
+
+    [SerializeField]
+    private Color bulletColor = Color.white;
+
+    protected override void Awake()
     {
-        
+        bullet = Resources.Load<Bullet>("Bullet");
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Start()
     {
-        
+        InvokeRepeating("Shoot", rate, rate);
+    }
+
+    private void Shoot()
+    {
+        Vector3 position = transform.position;      position.y += 0.7F;
+        Bullet newBullet = Instantiate(bullet, position, bullet.transform.rotation) as Bullet;
+
+        newBullet.Parent = gameObject;
+        newBullet.Direction = -newBullet.transform.right;
+        newBullet.Color = bulletColor; 
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collider)
+    {
+        Unit unit = collider.GetComponent<Unit>();
+
+        if (unit && unit is Character)
+        {
+            if (Mathf.Abs(unit.transform.position.x - transform.position.x) < 0.3F) ReceiveDamage();
+            else unit.ReceiveDamage();
+        }
     }
 }

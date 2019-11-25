@@ -40,6 +40,7 @@ public class Bullet : MonoBehaviour
 
         if (unit && unit.gameObject != parent)
         {
+           
             Destroy(gameObject);
         }
     }
